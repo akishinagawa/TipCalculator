@@ -92,6 +92,7 @@ class ViewController: UIViewController {
             NSUserDefaults.standardUserDefaults().setObject("yes", forKey: "savedBefore")
             NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
             NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+            NSUserDefaults.standardUserDefaults().synchronize()
         }
         
         self.updateValues()
@@ -100,6 +101,7 @@ class ViewController: UIViewController {
     func saveCurrentPercentage(){
         NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
         NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool{

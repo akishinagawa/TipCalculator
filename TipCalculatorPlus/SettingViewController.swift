@@ -44,6 +44,7 @@ class SettingViewController: UIViewController {
         minPercentgeLabel.text = percentFrmatter.stringFromNumber(minTipPercentage)! + " %"
         
         NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     @IBOutlet weak var maxPercentageSlider: UISlider!
@@ -59,6 +60,7 @@ class SettingViewController: UIViewController {
         maxPercentageLabel.text = percentFrmatter.stringFromNumber(maxTipPercentage)! + " %"
         
         NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
+        NSUserDefaults.standardUserDefaults().synchronize()
         
     }
     
