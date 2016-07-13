@@ -24,9 +24,7 @@ class ViewController: UIViewController {
     
     var maxTipPercentage = 0.0
     var minTipPercentage = 0.0
-    
     var splitNUmber = 1
-    
     
     @IBAction func onTipPercentageChanged(sender: AnyObject) {
         //NSLog("---->>onTipPercentageChanged")
@@ -36,7 +34,6 @@ class ViewController: UIViewController {
     
     @IBAction func returnToMainView(segue: UIStoryboardSegue) {
         NSLog("---->>　UIViewController: returnToMainView")
-        
         self.checkPreviousData()
     }
     
@@ -72,8 +69,6 @@ class ViewController: UIViewController {
         self.view.endEditing(true)
         self.updateValues()
     }
-    
-    
     
     func checkPreviousData() {
         
@@ -112,16 +107,13 @@ class ViewController: UIViewController {
     func updateValues() {
         //NSLog("---->>calculateTip")
 
-        
         var originalPrice = Float(originalPriceText.text!)
         if originalPrice == nil {
             originalPrice = 0.0
         }
         
         let tipPercentage  = Float(minTipPercentage) + (Float(maxTipPercentage - minTipPercentage) * Float(percentageSlider.value))
-        
         let tipPrice = originalPrice! * tipPercentage / 100
-        
         let totalPrice = originalPrice! + tipPrice
         
         
@@ -149,7 +141,5 @@ class ViewController: UIViewController {
         
     }
     
-
-
 }
 

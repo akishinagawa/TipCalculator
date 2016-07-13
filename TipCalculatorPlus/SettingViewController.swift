@@ -11,25 +11,17 @@ import UIKit
 
 import Foundation
 
-
-
-
-
 class SettingViewController: UIViewController {
 
     let defaultminTipPercentageMax = 10.0
     let defaultMaxTipPercentageMax = 50.0
     
-    
     var minTipPercentage = 0.0
     var maxTipPercentage = 0.0
-    
-    
     
     @IBOutlet weak var minPercentgeLabel: UILabel!
     @IBOutlet weak var maxPercentageLabel: UILabel!
     
- 
     @IBOutlet weak var minPercentageSlider: UISlider!
     @IBAction func minPercentageSliderChanged(sender: AnyObject) {
         
@@ -79,11 +71,7 @@ class SettingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
-    
     func setTipPercentageValues() {
-        
-        
         let percentFrmatter = NSNumberFormatter()
         percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         percentFrmatter.maximumFractionDigits = 1
@@ -93,11 +81,5 @@ class SettingViewController: UIViewController {
         minPercentgeLabel.text = percentFrmatter.stringFromNumber(minTipPercentage)! + " %"
         maxPercentageLabel.text = percentFrmatter.stringFromNumber(maxTipPercentage)! + " %"
     }
-
-
-
-
-
-
 
 }
