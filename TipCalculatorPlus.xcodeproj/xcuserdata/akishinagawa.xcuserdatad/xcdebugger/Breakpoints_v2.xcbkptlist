@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TipCalculatorPlus/SettingViewController.swift"
-            timestampString = "489767383.313696"
+            timestampString = "490110163.267007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "minPercentageSliderChanged(_:)"
             landmarkType = "5">
          </BreakpointContent>
