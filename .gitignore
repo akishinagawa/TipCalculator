@@ -1,0 +1,14 @@
+.DS_Store
+**/.DS_Store
+
+# xCode project
+
+build/
+
+Pods/
+
+xcuserdata/
+
+*.xcuserstate
+
+*.xccheckout
