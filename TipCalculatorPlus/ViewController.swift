@@ -54,7 +54,7 @@ class ViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        
+        // Set originalPriceText as FirstResponder for better UX
         self.originalPriceText.becomeFirstResponder()
         
         super.viewWillAppear(animated)
