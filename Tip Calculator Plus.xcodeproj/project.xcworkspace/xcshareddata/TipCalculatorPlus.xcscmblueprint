@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E4772CC382988E19F48F8602166736E65D08F611",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E4772CC382988E19F48F8602166736E65D08F611" : 0,
+    "1F013AAE553E88FD1FCBF5F7E337A3E8D9961008" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4CAC3CF5-399C-419F-8DC3-72D864D29938",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E4772CC382988E19F48F8602166736E65D08F611" : "CodePath\/",
+    "1F013AAE553E88FD1FCBF5F7E337A3E8D9961008" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TipCalculatorPlus",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TipCalculatorPlus.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Vungle\/publisher-sample-android.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1F013AAE553E88FD1FCBF5F7E337A3E8D9961008"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/akishinagawa\/TipCalculator.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E4772CC382988E19F48F8602166736E65D08F611"
+    }
+  ]
+}

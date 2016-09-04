@@ -29,14 +29,11 @@ class ViewController: UIViewController {
     var splitNumber = 1
     
     @IBAction func onTipPercentageChanged(sender: AnyObject) {
-        //NSLog("---->>onTipPercentageChanged")
-        
         tipPercentage = Double(minTipPercentage) + (Double(maxTipPercentage - minTipPercentage) * Double(percentageSlider.value))
         self.updateValues()
     }
     
     @IBAction func returnToMainView(segue: UIStoryboardSegue) {
-        NSLog("---->>　UIViewController: returnToMainView")
         self.checkPreviousData()
     }
     
@@ -51,38 +48,36 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.checkPreviousData()
         
-        NSLog("---->>　UIViewController: viewDidLoad")
-        
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        self.originalPriceText.becomeFirstResponder()
+        
+        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
         // Dispose of any resources that can be recreated.
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        NSLog("---->>touchesBegan")
-        
         self.view.endEditing(true)
         self.updateValues()
     }
     
     func checkPreviousData() {
-        
         if (NSUserDefaults.standardUserDefaults().objectForKey("savedBefore") != nil) {
-            NSLog("---->>checkPreviousData : Yes. There is data.")
-            
             tipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("defaultPercentage")
             maxTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("maxPercentage")
             minTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("minPercentage")
         }
         else {
-            NSLog("---->>checkPreviousData : No. There is no data.")
-            
             tipPercentage = defaultTipPercentage
             maxTipPercentage = defaultMaxTipPercentage
             minTipPercentage = defaultminTipPercentage
@@ -99,12 +94,11 @@ class ViewController: UIViewController {
     }
     
     func setPreviousTipPercentageToSlider() {
-        
+        // Set slider value
         let sliderValue = (tipPercentage - Double(minTipPercentage)) / Double(maxTipPercentage - minTipPercentage)
-        NSLog("--->> sliderValue == " + String(sliderValue))
+        percentageSlider.setValue(Float(sliderValue), animated: false)
         
-        percentageSlider.setValue(Float(0.5), animated: false)
-        
+        // Set tip percent to textfield
         let percentFrmatter = NSNumberFormatter()
         percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         percentFrmatter.maximumFractionDigits = 1
@@ -126,7 +120,6 @@ class ViewController: UIViewController {
     }
     
     func updateValues() {
-        //NSLog("---->>calculateTip"
         var originalPrice = Double(originalPriceText.text!)
         if originalPrice == nil {
             originalPrice = 0.0
@@ -161,7 +154,8 @@ class ViewController: UIViewController {
         let splittedPrice = Double(totalPrice) / Double(splitNumber)
         
         priceSplitByPeopleLabel.text = currencyFormatter.stringFromNumber(splittedPrice)
-        
+     
+        self.saveCurrentPercentage()
     }
     
 }

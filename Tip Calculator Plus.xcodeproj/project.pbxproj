@@ -17,7 +17,7 @@
 
 /* Begin PBXFileReference section */
 		150E5CF81D2CD07E00CA51BF /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		1549A16E1D0DD24800457A07 /* TipCalculatorPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TipCalculatorPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1549A16E1D0DD24800457A07 /* Tip Calculator Plus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tip Calculator Plus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1549A1711D0DD24800457A07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1549A1731D0DD24800457A07 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1549A1761D0DD24800457A07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		1549A16F1D0DD24800457A07 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1549A16E1D0DD24800457A07 /* TipCalculatorPlus.app */,
+				1549A16E1D0DD24800457A07 /* Tip Calculator Plus.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,9 +70,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1549A16D1D0DD24800457A07 /* TipCalculatorPlus */ = {
+		1549A16D1D0DD24800457A07 /* Tip Calculator Plus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1549A1801D0DD24800457A07 /* Build configuration list for PBXNativeTarget "TipCalculatorPlus" */;
+			buildConfigurationList = 1549A1801D0DD24800457A07 /* Build configuration list for PBXNativeTarget "Tip Calculator Plus" */;
 			buildPhases = (
 				1549A16A1D0DD24800457A07 /* Sources */,
 				1549A16B1D0DD24800457A07 /* Frameworks */,
@@ -82,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = TipCalculatorPlus;
+			name = "Tip Calculator Plus";
 			productName = TipCalculatorPlus;
-			productReference = 1549A16E1D0DD24800457A07 /* TipCalculatorPlus.app */;
+			productReference = 1549A16E1D0DD24800457A07 /* Tip Calculator Plus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -103,7 +103,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1549A1691D0DD24800457A07 /* Build configuration list for PBXProject "TipCalculatorPlus" */;
+			buildConfigurationList = 1549A1691D0DD24800457A07 /* Build configuration list for PBXProject "Tip Calculator Plus" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -116,7 +116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1549A16D1D0DD24800457A07 /* TipCalculatorPlus */,
+				1549A16D1D0DD24800457A07 /* Tip Calculator Plus */,
 			);
 		};
 /* End PBXProject section */
@@ -257,7 +257,7 @@
 				INFOPLIST_FILE = TipCalculatorPlus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blurryblue.TipCalculatorPlus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Tip Calculator Plus";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -269,7 +269,7 @@
 				INFOPLIST_FILE = TipCalculatorPlus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blurryblue.TipCalculatorPlus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Tip Calculator Plus";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -277,7 +277,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1549A1691D0DD24800457A07 /* Build configuration list for PBXProject "TipCalculatorPlus" */ = {
+		1549A1691D0DD24800457A07 /* Build configuration list for PBXProject "Tip Calculator Plus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1549A17E1D0DD24800457A07 /* Debug */,
@@ -286,7 +286,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1549A1801D0DD24800457A07 /* Build configuration list for PBXNativeTarget "TipCalculatorPlus" */ = {
+		1549A1801D0DD24800457A07 /* Build configuration list for PBXNativeTarget "Tip Calculator Plus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1549A1811D0DD24800457A07 /* Debug */,
