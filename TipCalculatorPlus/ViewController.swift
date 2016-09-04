@@ -19,16 +19,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var splitNumberText: UITextField!
     @IBOutlet weak var priceSplitByPeopleLabel: UILabel!
     
+    let defaultTipPercentage = 15.0
     let defaultMaxTipPercentage = 20.0
     let defaultminTipPercentage = 5.0
     
+    var tipPercentage = 0.0
     var maxTipPercentage = 0.0
     var minTipPercentage = 0.0
-    var splitNUmber = 1
+    var splitNumber = 1
     
     @IBAction func onTipPercentageChanged(sender: AnyObject) {
         //NSLog("---->>onTipPercentageChanged")
         
+        tipPercentage = Double(minTipPercentage) + (Double(maxTipPercentage - minTipPercentage) * Double(percentageSlider.value))
         self.updateValues()
     }
     
@@ -38,11 +41,9 @@ class ViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+        // pass default value to SettingViewController
         if segue.identifier == "goSetting" {
-
             let settingViewController = segue.destinationViewController as! SettingViewController
-
             settingViewController.maxTipPercentage = self.maxTipPercentage
             settingViewController.minTipPercentage = self.minTipPercentage
         }
@@ -75,25 +76,45 @@ class ViewController: UIViewController {
         if (NSUserDefaults.standardUserDefaults().objectForKey("savedBefore") != nil) {
             NSLog("---->>checkPreviousData : Yes. There is data.")
             
+            tipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("defaultPercentage")
             maxTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("maxPercentage")
             minTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("minPercentage")
         }
         else {
             NSLog("---->>checkPreviousData : No. There is no data.")
             
+            tipPercentage = defaultTipPercentage
             maxTipPercentage = defaultMaxTipPercentage
             minTipPercentage = defaultminTipPercentage
             
             NSUserDefaults.standardUserDefaults().setObject("yes", forKey: "savedBefore")
+            NSUserDefaults.standardUserDefaults().setDouble(tipPercentage, forKey: "defaultPercentage")
             NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
             NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         
+        self.setPreviousTipPercentageToSlider()
         self.updateValues()
     }
     
-    func saveCurrentPercentage(){
+    func setPreviousTipPercentageToSlider() {
+        
+        let sliderValue = (tipPercentage - Double(minTipPercentage)) / Double(maxTipPercentage - minTipPercentage)
+        NSLog("--->> sliderValue == " + String(sliderValue))
+        
+        percentageSlider.setValue(Float(0.5), animated: false)
+        
+        let percentFrmatter = NSNumberFormatter()
+        percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        percentFrmatter.maximumFractionDigits = 1
+        percentFrmatter.positiveFormat = "0.0"
+        percentFrmatter.roundingMode = NSNumberFormatterRoundingMode.RoundHalfUp
+        tipPercentageLabel.text = percentFrmatter.stringFromNumber(tipPercentage)! + " %"
+    }
+    
+    func saveCurrentPercentage() {
+        NSUserDefaults.standardUserDefaults().setDouble(tipPercentage, forKey: "defaultPercentage")
         NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
         NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
         NSUserDefaults.standardUserDefaults().synchronize()
@@ -105,17 +126,14 @@ class ViewController: UIViewController {
     }
     
     func updateValues() {
-        //NSLog("---->>calculateTip")
-
-        var originalPrice = Float(originalPriceText.text!)
+        //NSLog("---->>calculateTip"
+        var originalPrice = Double(originalPriceText.text!)
         if originalPrice == nil {
             originalPrice = 0.0
         }
-        
-        let tipPercentage  = Float(minTipPercentage) + (Float(maxTipPercentage - minTipPercentage) * Float(percentageSlider.value))
-        let tipPrice = originalPrice! * tipPercentage / 100
+
+        let tipPrice = Double(originalPrice!) * Double(tipPercentage) / 100
         let totalPrice = originalPrice! + tipPrice
-        
         
         let currencyFormatter = NSNumberFormatter()
         currencyFormatter.usesGroupingSeparator = true
@@ -133,9 +151,14 @@ class ViewController: UIViewController {
 
         tipPercentageLabel.text = percentFrmatter.stringFromNumber(tipPercentage)! + " %"
         
-        splitNUmber = Int(splitNumberText.text!)!
+        if splitNumberText.text != nil {
+            splitNumber = Int(splitNumberText.text!)!
+        }
+        else {
+            splitNumber = 1
+        }
         
-        let splittedPrice = totalPrice / Float(splitNUmber)
+        let splittedPrice = Double(totalPrice) / Double(splitNumber)
         
         priceSplitByPeopleLabel.text = currencyFormatter.stringFromNumber(splittedPrice)
         
