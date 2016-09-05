@@ -14,7 +14,7 @@ import Foundation
 class SettingViewController: UIViewController {
 
     let defaultminTipPercentageMax = 10.0
-    let defaultMaxTipPercentageMax = 50.0
+    let defaultMaxTipPercentageMax = 20.0
     
     var minTipPercentage = 0.0
     var maxTipPercentage = 0.0
@@ -53,14 +53,10 @@ class SettingViewController: UIViewController {
         
         NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
         NSUserDefaults.standardUserDefaults().synchronize()
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NSLog("---->>　SettingViewController: viewDidLoad")
-        
         self.setTipPercentageValues()
         
         // Do any additional setup after loading the view, typically from a nib.
