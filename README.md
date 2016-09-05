@@ -21,6 +21,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 * [x] User can split total amount by number of people in a party.
+* [x] User can change theme color of the app (Light and Dark)
 
 
 
