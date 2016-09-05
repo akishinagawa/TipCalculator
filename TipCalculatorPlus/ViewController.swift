@@ -10,6 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    enum ThemeMode:Int {
+        case Light
+        case Dark
+    }
+    
+    @IBOutlet weak var billAmountView: UIView!
+    @IBOutlet weak var splitBillView: UIView!
     @IBOutlet weak var originalPriceText: UITextField!
     @IBOutlet weak var tipPercentageLabel: UILabel!
     @IBOutlet weak var tipPriceLabel: UILabel!
@@ -28,6 +35,8 @@ class ViewController: UIViewController {
     var minTipPercentage = 0.0
     var splitNumber = 1
     
+    var themeMode:ThemeMode = .Light
+    
     @IBAction func onTipPercentageChanged(sender: AnyObject) {
         tipPercentage = Double(minTipPercentage) + (Double(maxTipPercentage - minTipPercentage) * Double(percentageSlider.value))
         self.updateValues()
@@ -35,6 +44,7 @@ class ViewController: UIViewController {
     
     @IBAction func returnToMainView(segue: UIStoryboardSegue) {
         self.checkPreviousData()
+        self.updateThemeMode()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -43,12 +53,14 @@ class ViewController: UIViewController {
             let settingViewController = segue.destinationViewController as! SettingViewController
             settingViewController.maxTipPercentage = self.maxTipPercentage
             settingViewController.minTipPercentage = self.minTipPercentage
+            settingViewController.currentThemeMode = self.themeMode.rawValue
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.checkPreviousData()
+        self.updateThemeMode()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -58,6 +70,9 @@ class ViewController: UIViewController {
         self.originalPriceText.becomeFirstResponder()
         
         super.viewWillAppear(animated)
+        
+        self.checkPreviousData()
+        self.updateThemeMode()
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,21 +91,54 @@ class ViewController: UIViewController {
             tipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("defaultPercentage")
             maxTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("maxPercentage")
             minTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("minPercentage")
+            let tempThemeMode = NSUserDefaults.standardUserDefaults().integerForKey("themeMode")
+            if tempThemeMode == ThemeMode.Dark.rawValue {
+                themeMode = .Dark
+            }
+            else {
+                themeMode = .Light
+            }
         }
         else {
             tipPercentage = defaultTipPercentage
             maxTipPercentage = defaultMaxTipPercentage
             minTipPercentage = defaultminTipPercentage
+            themeMode = .Light
             
             NSUserDefaults.standardUserDefaults().setObject("yes", forKey: "savedBefore")
             NSUserDefaults.standardUserDefaults().setDouble(tipPercentage, forKey: "defaultPercentage")
             NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
             NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+            NSUserDefaults.standardUserDefaults().setInteger(themeMode.rawValue, forKey: "themeMode")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         
         self.setPreviousTipPercentageToSlider()
         self.updateValues()
+    }
+    
+    
+    func updateThemeMode() {
+        // Dark color
+        let darkColorBG = UIColor(red: 0.0, green: 0.45, blue: 0.9, alpha: 255.0)
+        let darkColorBillBG = UIColor(red: 0.0, green: 0.25, blue: 0.5, alpha: 255.0)
+        let darkColorSplitBG = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 255.0)
+        //Light COlor
+        let lightColorBG = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        let lightColorBillBG = UIColor(red: 0.4, green: 0.8, blue: 1.0, alpha: 1.0)
+        let dlightColorSplitBG = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 255.0)
+        
+        switch themeMode {
+        case .Dark:
+            self.view.backgroundColor = darkColorBG
+            billAmountView.backgroundColor = darkColorBillBG
+            splitBillView.backgroundColor = darkColorSplitBG
+
+        case .Light:
+            self.view.backgroundColor = lightColorBG
+            billAmountView.backgroundColor = lightColorBillBG
+            splitBillView.backgroundColor = dlightColorSplitBG
+        }
     }
     
     func setPreviousTipPercentageToSlider() {

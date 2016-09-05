@@ -18,9 +18,11 @@ class SettingViewController: UIViewController {
     
     var minTipPercentage = 0.0
     var maxTipPercentage = 0.0
+    var currentThemeMode = 0
     
     @IBOutlet weak var minPercentgeLabel: UILabel!
     @IBOutlet weak var maxPercentageLabel: UILabel!
+    @IBOutlet weak var themeSegment: UISegmentedControl!
     
     @IBOutlet weak var minPercentageSlider: UISlider!
     @IBAction func minPercentageSliderChanged(sender: AnyObject) {
@@ -55,9 +57,17 @@ class SettingViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
+    @IBAction func themeSegementChanged(sender: AnyObject) {
+        currentThemeMode = sender.selectedSegmentIndex
+        
+        NSUserDefaults.standardUserDefaults().setInteger(currentThemeMode, forKey: "themeMode")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTipPercentageValues()
+        self.setCurrentThemeMode()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -76,6 +86,10 @@ class SettingViewController: UIViewController {
         
         minPercentgeLabel.text = percentFrmatter.stringFromNumber(minTipPercentage)! + " %"
         maxPercentageLabel.text = percentFrmatter.stringFromNumber(maxTipPercentage)! + " %"
+    }
+    
+    func setCurrentThemeMode() {
+        themeSegment.selectedSegmentIndex = currentThemeMode
     }
 
 }
