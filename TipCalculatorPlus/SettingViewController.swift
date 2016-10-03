@@ -14,10 +14,10 @@ import Foundation
 class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
 
     let defaultminTipPercentageMax = 10.0
-    let defaultMaxTipPercentageMax = 20.0
+    let defaultMaxTipPercentageMax = 30.0
     
-    var minTipPercentage = 0.0
-    var maxTipPercentage = 0.0
+    var minTipPercentage = 0
+    var maxTipPercentage = 0
     var currentThemeMode = 0
     
     @IBOutlet weak var minPercentgeLabel: UILabel!
@@ -27,33 +27,33 @@ class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var minPercentageSlider: UISlider!
     @IBAction func minPercentageSliderChanged(sender: AnyObject) {
         
-        minTipPercentage = Double(defaultminTipPercentageMax) * Double(minPercentageSlider.value)
+        minTipPercentage = Int(Double(defaultminTipPercentageMax) * Double(minPercentageSlider.value)) as Int
         
         let percentFrmatter = NSNumberFormatter()
         percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         percentFrmatter.maximumFractionDigits = 1
-        percentFrmatter.positiveFormat = "0.0"
+        percentFrmatter.positiveFormat = "0"
         percentFrmatter.roundingMode = NSNumberFormatterRoundingMode.RoundHalfUp
         
         minPercentgeLabel.text = percentFrmatter.stringFromNumber(minTipPercentage)! + " %"
         
-        NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+        NSUserDefaults.standardUserDefaults().setInteger(minTipPercentage, forKey: "minPercentage")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     @IBOutlet weak var maxPercentageSlider: UISlider!
     @IBAction func maxPercentageSliderChanged(sender: AnyObject) {
-       maxTipPercentage = Double(defaultMaxTipPercentageMax - defaultminTipPercentageMax) * Double(maxPercentageSlider.value)
+       maxTipPercentage = Int(Double(defaultMaxTipPercentageMax - defaultminTipPercentageMax) * Double(maxPercentageSlider.value) + defaultminTipPercentageMax) as Int
         
         let percentFrmatter = NSNumberFormatter()
         percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         percentFrmatter.maximumFractionDigits = 1
-        percentFrmatter.positiveFormat = "0.0"
+        percentFrmatter.positiveFormat = "0"
         percentFrmatter.roundingMode = NSNumberFormatterRoundingMode.RoundHalfUp
         
         maxPercentageLabel.text = percentFrmatter.stringFromNumber(maxTipPercentage)! + " %"
         
-        NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
+        NSUserDefaults.standardUserDefaults().setInteger(maxTipPercentage, forKey: "maxPercentage")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
@@ -84,11 +84,14 @@ class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let percentFrmatter = NSNumberFormatter()
         percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         percentFrmatter.maximumFractionDigits = 1
-        percentFrmatter.positiveFormat = "0.0"
+        percentFrmatter.positiveFormat = "0"
         percentFrmatter.roundingMode = NSNumberFormatterRoundingMode.RoundHalfUp
         
         minPercentgeLabel.text = percentFrmatter.stringFromNumber(minTipPercentage)! + " %"
         maxPercentageLabel.text = percentFrmatter.stringFromNumber(maxTipPercentage)! + " %"
+        
+        maxPercentageSlider.value = Float(Double(maxTipPercentage) - defaultminTipPercentageMax) / Float(Double(defaultMaxTipPercentageMax - defaultminTipPercentageMax)) as Float
+        minPercentageSlider.value = Float(Double(minTipPercentage) / Double(defaultminTipPercentageMax)) as Float
     }
     
     func setCurrentThemeMode() {

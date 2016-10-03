@@ -31,15 +31,16 @@ class ViewController: UIViewController {
     let keypadFocusedBillViewSize:CGRect = CGRect(x: 0, y: 64, width: 375, height: 200)
     
     let defaultTipPercentage = 15.0
-    let defaultMaxTipPercentage = 20.0
-    let defaultminTipPercentage = 5.0
+    let defaultMaxTipPercentage = 20
+    let defaultminTipPercentage = 5
     let previousBillAmountKeepDuration = 600.0
     
     var currentBillAmount = 0.0
     var tipPercentage = 0.0
-    var maxTipPercentage = 0.0
-    var minTipPercentage = 0.0
+    var maxTipPercentage = 0
+    var minTipPercentage = 0
     var splitNumber = 1
+    var previousBillAmountString = ""
     
     var themeMode:ThemeMode = .Light
     var currentLocale:String = ""
@@ -82,7 +83,7 @@ class ViewController: UIViewController {
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplicationDidBecomeActiveNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplicationWillResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -95,7 +96,11 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         // Set originalPriceText as FirstResponder for better UX
-        self.originalPriceText.becomeFirstResponder()
+        let previousBillAmount = NSUserDefaults.standardUserDefaults().doubleForKey("previousBillAmount")
+        
+        if(previousBillAmount == 0){
+            self.originalPriceText.becomeFirstResponder()
+        }
         
         super.viewWillAppear(animated)
         
@@ -115,12 +120,15 @@ class ViewController: UIViewController {
         self.view.endEditing(true)
 
         let billText = String(originalPriceText.text!)
-        if billText == "" {
-            currentBillAmount = 0.0
+        if(previousBillAmountString != billText){
+            if billText == "" {
+                currentBillAmount = 0.0
+            }
+            else {
+                currentBillAmount = Double(billText)!
+            }
         }
-        else {
-            currentBillAmount = Double(billText)!
-        }
+        
         self.updateValues()
         
 //        self.shrinkBillTextField()
@@ -129,8 +137,8 @@ class ViewController: UIViewController {
     func checkPreviousData() {
         if (NSUserDefaults.standardUserDefaults().objectForKey("savedBefore") != nil) {
             tipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("defaultPercentage")
-            maxTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("maxPercentage")
-            minTipPercentage = NSUserDefaults.standardUserDefaults().doubleForKey("minPercentage")
+            maxTipPercentage = NSUserDefaults.standardUserDefaults().integerForKey("maxPercentage")
+            minTipPercentage = NSUserDefaults.standardUserDefaults().integerForKey("minPercentage")
             currentLocale = NSUserDefaults.standardUserDefaults().stringForKey("currentLocale")!
             let tempThemeMode = NSUserDefaults.standardUserDefaults().integerForKey("themeMode")
             if tempThemeMode == ThemeMode.Dark.rawValue {
@@ -152,8 +160,8 @@ class ViewController: UIViewController {
             
             NSUserDefaults.standardUserDefaults().setObject("yes", forKey: "savedBefore")
             NSUserDefaults.standardUserDefaults().setDouble(tipPercentage, forKey: "defaultPercentage")
-            NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
-            NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+            NSUserDefaults.standardUserDefaults().setInteger(maxTipPercentage, forKey: "maxPercentage")
+            NSUserDefaults.standardUserDefaults().setInteger(minTipPercentage, forKey: "minPercentage")
             NSUserDefaults.standardUserDefaults().setInteger(themeMode.rawValue, forKey: "themeMode")
             NSUserDefaults.standardUserDefaults().setObject(currentLocale, forKey: "currentLocale")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -199,8 +207,8 @@ class ViewController: UIViewController {
     
     func saveCurrentData() {
         NSUserDefaults.standardUserDefaults().setDouble(tipPercentage, forKey: "defaultPercentage")
-        NSUserDefaults.standardUserDefaults().setDouble(maxTipPercentage, forKey: "maxPercentage")
-        NSUserDefaults.standardUserDefaults().setDouble(minTipPercentage, forKey: "minPercentage")
+        NSUserDefaults.standardUserDefaults().setInteger(maxTipPercentage, forKey: "maxPercentage")
+        NSUserDefaults.standardUserDefaults().setInteger(minTipPercentage, forKey: "minPercentage")
         NSUserDefaults.standardUserDefaults().setDouble(currentBillAmount, forKey: "previousBillAmount")
         NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "previousBillEnteredDate")
         NSUserDefaults.standardUserDefaults().setObject(currentLocale, forKey: "currentLocale")
@@ -243,7 +251,9 @@ class ViewController: UIViewController {
         
         tipPriceLabel.text = currencyFormatter.stringFromNumber(tipPrice)
         totalPriceLabel.text = currencyFormatter.stringFromNumber(totalPrice)
-//        originalPriceText.text = currencyFormatter.stringFromNumber(currentBillAmount) // TODO: fix the issue with convert formatted string to double
+        
+        previousBillAmountString = currencyFormatter.stringFromNumber(currentBillAmount)!
+        originalPriceText.text =  previousBillAmountString
         
         let percentFrmatter = NSNumberFormatter()
         percentFrmatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -300,21 +310,20 @@ class ViewController: UIViewController {
         
         if timeDiff <= previousBillAmountKeepDuration && previousBillAmount != 0 {
             originalPriceText.text = String(previousBillAmount)
-            self.updateValues()
         }
         else{
             originalPriceText.text = ""
+            currentBillAmount = 0.0
+            self.originalPriceText.becomeFirstResponder()
         }
+        self.updateValues()
     }
     
     func appMovedToBackground() {
-        let billText = Double(originalPriceText.text!)
-        if billText == nil {
-            currentBillAmount = 0.0
-        }
-        else {
-            currentBillAmount = Double(billText!)
-        }
+//        let billText = Double(originalPriceText.text!)
+//        if billText == nil {
+//            currentBillAmount = 0.0
+//        }
         
         self.saveCurrentData()
     }
